@@ -1,0 +1,90 @@
+﻿@using ShoppingCart.Models
+@{
+    ViewBag.Title = "Check";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<MyPurchaseModel> mypurchase = (List<MyPurchaseModel>)ViewData["mypurchases"];
+    var groups = from purchases in mypurchase
+                 group purchases by new { purchases.Name, purchases.DateOfPurchase } into newgroup
+                 select newgroup;
+}
+
+<h2>My Purchases</h2>
+<html>
+
+<style>
+    .half {
+        float: left;
+        width: 50%;
+        padding: 5px;
+        border: hidden
+    }
+</style>
+
+<body>
+    <table align="center">
+        @foreach (var group in groups)
+        {
+            <tr>
+                <td class="half">
+                    <table border="0">
+                        <tr>
+                            <td align="center"><img src="@group.ElementAt(0).Image" height="90" width="110" /></td>
+                        </tr>
+                        <tr>
+                            <td align="center">@group.ElementAt(0).Name</td>
+                        </tr>
+                        <tr>
+                            <td align="center">@group.ElementAt(0).Description</td>
+                        </tr>
+                        <tr>
+                            <td align="center"><input type="submit" class="btn btn-primary shop-item-button" id="download" name="download" value="Download" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br /><br /><br />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>Date Purchased:</td>
+                            <td>@group.ElementAt(0).DateOfPurchase</td>
+                        </tr>
+                        <tr>
+                            <td>Quantity:</td>
+                            <td>@group.Count()</td>
+                        </tr>
+                        <tr>
+                            <td>Activation Code:</td>
+                            <td>
+                                <select>
+                                    @foreach (var numOfCode in group)
+                                    {
+                                        <option>@numOfCode.ActivationCode</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br /><br /><br />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div class="shop-items">
+
+        <a href="@Url.Action("Gallery", "Product")" class="btn btn-primary shop-item-button">Home</a>
+        <a href="@Url.Action("Logout","Logout")" class="btn btn-primary shop-item-button" role="button" ) value="Checkout">Logout</a>
+
+    </div>
+</body>
+
+
+</html>

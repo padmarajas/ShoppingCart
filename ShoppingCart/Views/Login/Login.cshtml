@@ -1,0 +1,65 @@
+﻿@model ShoppingCart.Models.Customer
+
+
+<center>
+    <div class="container">
+        <input type="image" src="~/Logo/VVPS logo.png" style=" margin-top: 30px;" />
+    </div>
+</center>
+
+<h2 style="text-align:center;">
+    <b>
+        Login
+    </b>
+</h2>
+<p style="text-align:center;">
+    Please enter your username and password.
+</p>
+
+@using (Html.BeginForm("Login", "Login", FormMethod.Post))
+{
+    <table align="center">
+        <tr>
+            <td colspan="3">
+                @{
+                    if ((bool)ViewData["WrongPassword"] == true)
+                    {
+                        <div class="alert alert-dismissible alert-danger">
+                            <button class="close" type="button" data-dismiss="alert">&times;</button>
+                            <a class="alert-link" href="#">Username and/or Password does not exist, please try again. </a>
+                        </div>
+                    }
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>Username: </th>
+            <td class="textbox">@Html.TextBoxFor(x => x.Username)</td>
+            <td>@Html.ValidationMessageFor(x => x.Username)</td>
+        </tr>
+        <tr>
+            <th>Password: </th>
+            <td class="textbox">@Html.PasswordFor(x => x.Password)</td>
+            <td>@Html.ValidationMessageFor(x => x.Password)</td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><Input type="submit" value="Submit" /></td>
+        </tr>
+    </table>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+}
+
+<style>
+    th, tr, td {
+        padding: 5px;
+    }
+
+    .field-validation-error {
+        color: red;
+    }
+</style>

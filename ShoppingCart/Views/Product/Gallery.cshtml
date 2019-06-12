@@ -1,0 +1,82 @@
+﻿@{
+    /**/
+
+    ViewBag.Title = "Gallery";
+    List<Product> Products = (List<Product>)ViewData["Products"];
+    string username = (string)ViewData["Username"];
+}
+<h2>Galler </h2>
+
+@using ShoppingCart.Models
+<div class="navbar navbar-inverse ">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li style="font-size:xx-large">Hello,@username</li>
+                <li><a href="@Url.Action("Mypurchases", "Checkout")" role="link">My Purchase</a></li>
+                <li><a href="@Url.Action("Logout","Logout")" role="link" value="Checkout">Logout</a></li>
+            </ul>
+            <ul class="nav navbar-nav" style="float:right">
+                <li class="active">
+                    <a href="@Url.Action("Myorder", "AddToCart")" class="btn btn-info btn-lg">
+                        <span class="glyphicon glyphicon-shopping-cart" style="color:floralwhite"></span>Cart<span class="badge">@Session["count"]</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("Gallery", "Product", FormMethod.Post))
+{
+    <script src="~/Scripts/store.js" language="javascript" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/Content/style.css">
+    <section>
+        @Html.TextBox("search")
+        <input type="submit" value="Search" />
+    </section>
+    <br />
+    <br />
+}
+<style>
+    .column {
+        float: left;
+        width: 33.33%;
+        padding: 5px;
+        border: hidden
+    }
+</style>
+<table>
+
+    <tr>
+        @foreach (var product in Products)
+        {
+            {
+                <td class="column" align="center">
+
+                    <img src="@product.Img" height="90" width="110" />
+                    <span class="shop-item-title">@product.Name</span>
+                    @product.Description<br />
+                    <a href="@Url.Action("Add","AddToCart",new { id=product.Id})" class="btn btn-primary shop-item-button" role="button" ) value="Add to Cart"> $@product.Price- ADD TO CART</a>
+                </td>
+            }
+        }
+    </tr>
+
+</table>
+
+
+
+
+
+
+
+
+

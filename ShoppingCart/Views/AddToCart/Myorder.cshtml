@@ -1,0 +1,55 @@
+﻿
+@model IEnumerable<ShoppingCart.Models.Product>
+@using ShoppingCart.Models; 
+@using System.Linq;
+@{
+    ViewBag.Title = "Myorder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sum = 0;
+    List<Product> prd = (List<Product>)Model;
+    var groups = from groupOfProduct in prd
+                 group groupOfProduct by groupOfProduct.Id into newgroup
+                 select newgroup;
+    
+}
+<h2>View Cart</h2>
+<div id="footer" class="shop-items">
+
+    <a href="@Url.Action("Gallery", "Product")" class="btn btn-primary shop-item-button">Continue Shopping </a>
+    <a href="@Url.Action("check","Checkout")" class="btn btn-primary shop-item-button" role="button" ) value="Checkout">Checkout </a>
+
+</div>
+
+<form method="Post">
+    @foreach (var product in groups)
+    {
+        <section class="container content-section" style="padding:40px 0;border:2px;text-align:center">
+            <div class="shop-items">
+                <div class="shop-item">
+                    <span class="shop-item-title"><img src=@product.ElementAt(0).Img></span><br />
+                    <span class="shop-item-title">@product.ElementAt(0).Name</span>
+                    <div class="shop-item-details">
+                        Quantity:
+                        <input type="submit" formaction="Add?Id=@product.ElementAt(0).Id&cmd=minus" value="-" />
+                        <input type="text" value=@product.Count() class=field>
+                        <input type="submit" formaction="Add?Id=@product.ElementAt(0).Id&cmd=add" value="+"><br />
+                        Price:
+                        <span class="shop-item-price">$@product.ElementAt(0).Price</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+    @foreach (var product in Model)
+    {
+        sum = Convert.ToInt32(product.Price) + sum;
+    }
+    <section style="float:right">
+    <div>
+        <b><big>Total:$@sum</big></b>
+    </div>
+    </section>
+
+</form>
+
